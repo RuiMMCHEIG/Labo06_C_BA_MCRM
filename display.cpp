@@ -22,9 +22,9 @@ using namespace std;
 
 // Function to display a table of unsigned
 void displayTable(const string& message, unsigned nbColumns, int spacePerValue,
-                  unsigned table[], unsigned tableSize) {
+                  const unsigned table[], size_t tableSize) {
    cout << message << endl;
-   for (unsigned i = 0; i < tableSize; ++i) {
+   for (size_t i = 0; i < tableSize; ++i) {
       cout << setw(spacePerValue) << table[i];
       if (i % nbColumns == nbColumns - 1) cout << endl;
    }
@@ -32,10 +32,11 @@ void displayTable(const string& message, unsigned nbColumns, int spacePerValue,
 
 // Function to display a table of bool
 void displayTable(const string& message, unsigned nbColumns, int spacePerValue,
-                  bool table[], unsigned tableSize, char trueChar, char falseChar) {
+                  const bool table[], size_t tableSize,
+                  char trueChar, char falseChar) {
    cout << message << endl;
    assert(nbColumns > 0);
-   for (unsigned i = 0; i < tableSize; ++i) {
+   for (size_t i = 0; i < tableSize; ++i) {
       cout << setw(spacePerValue) << (table[i] ? trueChar : falseChar);
       if (i % nbColumns == nbColumns - 1) cout << endl;
    }

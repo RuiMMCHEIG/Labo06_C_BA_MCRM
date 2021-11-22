@@ -26,26 +26,22 @@ int main() {
    const unsigned MIN =   2;
    const unsigned MAX = 100;
 
-   string notCrible = "Pas crible";
-   string crible    = "Crible";
-   string prime     = "";
-
    cout << "Bienvenue\n";
-   const unsigned size = getUnsigned("Inserez un nombre", MIN, MAX);
+   const size_t size = getUnsigned("Inserez un nombre", MIN, MAX);
 
    unsigned primes[MAX];
    bool valuesIn[MAX];
 
-   for (unsigned i = 0; i < size; ++i) {
-      primes[i] = i + 1;
+   for (size_t i = 0; i < size; ++i) {
+      primes[i] = unsigned(i) + 1;
       valuesIn[i] = false;
    }
 
    displayTable("Pas crible", 10, 2, valuesIn, size, 'O', 'O');
 
-   unsigned primeSize = primeTable(primes, size);
+   size_t primeSize = primeTable(primes, size);
 
-   for (unsigned i = 0; i < primeSize; ++i){
+   for (size_t i = 0; i < primeSize; ++i){
       valuesIn[primes[i] - 1] = true;
    }
 

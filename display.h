@@ -25,7 +25,7 @@ Compiler        : Mingw-w64 g++ 11.2.0
 /// @param tableSize Size of the table to display
 /// @return Nothing
 void displayTable(const std::string& message, unsigned nbColumns, int spacePerValue,
-                  unsigned table[], unsigned tableSize);
+                  const unsigned table[], size_t tableSize);
 
 /// This functions displays a table of bool
 /// @param message Message to display before the table
@@ -37,6 +37,7 @@ void displayTable(const std::string& message, unsigned nbColumns, int spacePerVa
 /// @param falseChar Character to display when a value is false
 /// @return Nothing
 void displayTable(const std::string& message, unsigned nbColumns, int spacePerValue,
-                  bool table[], unsigned tableSize, char trueChar, char falseChar);
+                  const bool table[], size_t tableSize,
+                  char trueChar, char falseChar);
 
 #endif //LABO06_C_BA_MCRM_DISPLAY_H

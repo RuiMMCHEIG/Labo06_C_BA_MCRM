@@ -12,33 +12,42 @@ Compiler        : Mingw-w64 g++ 11.2.0
 -----------------------------------------------------------------------------------
 */
 
+#include <cstdlib>
 #include "prime.h"
 
-// Function
-unsigned primeTable(unsigned table[], unsigned tableSize) {
-   unsigned newSize = tableSize;
-   for (unsigned i = 1; i < tableSize; ++i) {
-      unsigned currentSize = newSize;
+// Function to remove non primes
+size_t primeTable(unsigned table[], size_t tableSize) {
+   size_t newSize = tableSize;
+   for (size_t i = !(table[0] - 1); i < tableSize; ++i) {
+      size_t currentSize = newSize;
+      // Ignores if value is 0
       if (table[i]) {
-         newSize = 1;
-         for (unsigned j = 1; j < currentSize; ++j) {
+         newSize = !(table[0] - 1);
+         for (size_t j = !(table[0] - 1); j < currentSize; ++j) {
+            // Set to 0 if not prime
             if ((table[j] != table[i]) && !(table[j] % table[i])) {
                table[j] = 0;
-            } else {
+            }
+            // Moves element if there is a 0 before it
+            else {
                table[newSize] = table[j];
                ++newSize;
             }
          }
-         for (unsigned j = newSize; j < currentSize; ++j) {
+         // Put values out of the new size to 0
+         for (size_t j = newSize; j < currentSize; ++j) {
             table[j] = 0;
          }
       }
    }
-   //Remove 1
-   for (unsigned i = 0; i < newSize; ++i) {
-      table[i] = table[i + 1];
+   //Removes 1 from the table
+   if (!(table[0] - 1)) {
+      for (size_t i = 0; i < newSize - 1; ++i) {
+         table[i] = table[i + 1];
+      }
+      table[newSize] = 0;
+      --newSize;
    }
-   table[newSize] = 0;
 
-   return --newSize;
+   return newSize;
 }
