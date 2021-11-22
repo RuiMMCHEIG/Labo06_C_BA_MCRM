@@ -34,6 +34,11 @@ unsigned primeTable(unsigned table[], unsigned tableSize) {
          }
       }
    }
+   //Remove 1
+   for (unsigned i = 0; i < newSize; ++i) {
+      table[i] = table[i + 1];
+   }
+   table[newSize] = 0;
 
-   return newSize;
+   return --newSize;
 }

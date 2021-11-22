@@ -23,7 +23,7 @@ using namespace std;
 
 int main() {
 
-   const unsigned MIN =   1;
+   const unsigned MIN =   2;
    const unsigned MAX = 100;
 
    string notCrible = "Pas crible";
@@ -31,7 +31,7 @@ int main() {
    string prime     = "";
 
    cout << "Bienvenue\n";
-   const unsigned size = getUnsigned("Inserez un nombre", 1, 100);
+   const unsigned size = getUnsigned("Inserez un nombre", MIN, MAX);
 
    unsigned primes[MAX];
    bool valuesIn[MAX];
@@ -53,7 +53,7 @@ int main() {
 
    displayTable("Crible", 10, 2, valuesIn, size, 'O', 'X');
 
-   cout << "Il y a " << primeSize << " nombre premiers :\n";
+   cout << "\n\nIl y a " << primeSize << " nombre premiers :\n";
    displayTable("", 10, 5, primes, primeSize);
 
    cout << endl << endl;
