@@ -1,4 +1,62 @@
 /*
+-----------------------------------------------------------------------------------
+Filename        : main.cpp
+Laboratory name : Labo06_C - ???
+Author(s)       : Rui Manuel Mota Carneiro
+Creation date   : 18.11.2021
+
+Description     :
+
+Comment(s)      :
+
+Compiler        : Mingw-w64 g++ 11.2.0
+-----------------------------------------------------------------------------------
+*/
+
+#include <cstdlib>
+#include <iostream>
+#include "inputs.h"
+#include "display.h"
+#include "prime.h"
+
+using namespace std;
+
+int main() {
+
+   const unsigned MIN =   2;
+   const unsigned MAX = 100;
+
+   cout << "Bienvenue\n";
+   const size_t size = getUnsigned("Inserez un nombre", MIN, MAX);
+
+   unsigned primes[MAX];
+   bool valuesIn[MAX];
+
+   for (size_t i = 0; i < size; ++i) {
+      primes[i] = unsigned(i) + 1;
+      valuesIn[i] = false;
+   }
+
+   displayTable("Pas crible", 10, 2, valuesIn, size, 'O', 'O');
+
+   size_t primeSize = primeTable(primes, size);
+
+   for (size_t i = 0; i < primeSize; ++i){
+      valuesIn[primes[i] - 1] = true;
+   }
+
+   cout << endl << endl;
+
+   displayTable("Crible", 10, 2, valuesIn, size, 'O', 'X');
+
+   cout << "\n\nIl y a " << primeSize << " nombre premiers :\n";
+   displayTable("", 10, 5, primes, primeSize);
+
+   cout << endl << endl;
+
+   return EXIT_SUCCESS;
+}
+/*
   ---------------------------------------------------------------------------
   Fichier     : <fichier>.cpp
   Nom du labo : à compléter
