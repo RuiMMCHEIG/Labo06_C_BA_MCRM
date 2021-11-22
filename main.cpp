@@ -1,13 +1,20 @@
 /*
 -----------------------------------------------------------------------------------
 Filename        : main.cpp
-Laboratory name : Labo06_C - ???
-Author(s)       : Rui Manuel Mota Carneiro
+Laboratory name : Labo 6 - Crible
+Author(s)       : Rui Manuel Mota Carneiro, Aurélien Bloch
 Creation date   : 18.11.2021
 
-Description     :
+Description     : Asks a value to the user and shows him all primes values up to
+                  his selected number
 
-Comment(s)      :
+Comment(s)      : Uses the Sieve of Eratosthenes method to find primes :
+                     https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+                  Display of sieved tables
+                  The input is controlled
+                  Uses 1D array
+                  Prints the tables on a determined number of columns (10)
+                  It must be possible to display all values on one line
 
 Compiler        : Mingw-w64 g++ 11.2.0
 -----------------------------------------------------------------------------------
@@ -15,109 +22,98 @@ Compiler        : Mingw-w64 g++ 11.2.0
 
 #include <cstdlib>
 #include <iostream>
-#include "inputs.h"
+#include "input.h"
 #include "display.h"
-#include "prime.h"
+#include "numbers.h"
 
 using namespace std;
 
 int main() {
 
-   const unsigned MIN =   2;
-   const unsigned MAX = 100;
+   //==========
+   // Constants
+   //==========
 
-   cout << "Bienvenue\n";
-   const size_t size = getUnsigned("Inserez un nombre", MIN, MAX);
+   const unsigned MIN                           = 2,
+                  MAX                           = 100,
+                  MIN_NUMBER                    = 1,
+                  NBR_COLUMNS_DISPLAYED         = 10,
+                  SPACE_DISPLAYED_SIEVED_DATA   = 2,
+                  SPACE_DISPLAYED_NUMBER        = 5;
 
-   unsigned primes[MAX];
+   const string   WELCOME_MESSAGE         = "Bienvenue\n",
+                  INPUT_SIZE_MESSAGE      = "Veuillez choisir le nombre de valeurs",
+                  FIRST_SIEVE_TITLE       = "Not crible :",
+                  SECOND_SIEVE_TITLE      = "Crible : ",
+                  RESULT_SENTENCE_START   = "\nIl y a : ",
+                  RESULT_SENTENCE_END     = " nombre premiers :\n",
+                  GOODBYE_MESSAGE         = "Pressez ENTER pour quitter...";
+
+   const char     TRUE_CHAR   = 'X',
+                  FALSE_CHAR  = 'O';
+
+   //==========
+   // Variables
+   //==========
+
+   int primeNumbers[MAX];
    bool valuesIn[MAX];
 
+   //===========
+   // User input
+   //===========
+
+   cout << WELCOME_MESSAGE;
+   const size_t size = (static_cast<size_t>(enterRangedValue(
+      INPUT_SIZE_MESSAGE, MIN, MAX)));
+
+   //Initialising all the data to false
    for (size_t i = 0; i < size; ++i) {
-      primes[i] = unsigned(i) + 1;
       valuesIn[i] = false;
    }
 
-   displayTable("Pas crible", 10, 2, valuesIn, size, 'O', 'O');
+   //==========================
+   // Generation of the numbers
+   //==========================
 
-   size_t primeSize = primeTable(primes, size);
+   generateNumbers(primeNumbers, size, MIN_NUMBER, static_cast<int>(size));
 
-   for (size_t i = 0; i < primeSize; ++i){
-      valuesIn[primes[i] - 1] = true;
+   //================================================================
+   // Display the sieved table before filtering the non-prime numbers
+   //================================================================
+
+   displayTable(FIRST_SIEVE_TITLE, NBR_COLUMNS_DISPLAYED,
+                SPACE_DISPLAYED_SIEVED_DATA, valuesIn, size, TRUE_CHAR, FALSE_CHAR);
+
+   //Remove all the non-prime numbers from the table and get the number of primes
+   size_t primesCount = removeNonPrimeNumbers(primeNumbers, size);
+
+   //===============================================================
+   // Display the sieved table after filtering the non-prime numbers
+   //===============================================================
+
+   // Set bool table for display at the primes positions
+   for (size_t i = 0; i < primesCount; ++i) {
+      valuesIn[primeNumbers[i] - 1] = true;
    }
 
    cout << endl << endl;
+   displayTable(SECOND_SIEVE_TITLE, NBR_COLUMNS_DISPLAYED,
+                SPACE_DISPLAYED_SIEVED_DATA,
+                valuesIn, size,
+                TRUE_CHAR,
+                FALSE_CHAR);
 
-   displayTable("Crible", 10, 2, valuesIn, size, 'O', 'X');
+   //================================
+   // Display the prime numbers found
+   //================================
 
-   cout << "\n\nIl y a " << primeSize << " nombre premiers :\n";
-   displayTable("", 10, 5, primes, primeSize);
+   cout << RESULT_SENTENCE_START << primesCount << RESULT_SENTENCE_END;
+   displayTable("", NBR_COLUMNS_DISPLAYED, SPACE_DISPLAYED_NUMBER, primeNumbers,
+                primesCount);
 
-   cout << endl << endl;
-
-   return EXIT_SUCCESS;
-}
-/*
-  ---------------------------------------------------------------------------
-  Fichier     : <fichier>.cpp
-  Nom du labo : à compléter
-  Auteur(s)   : Aurélien Bloch
-  Date        : à compléter
-  But         : le but du programme et non le but du laboratoire !!
-
-  Remarque(s) : à compléter
-
-  Compilateur : Mingw-w64 g++ 8.1.0
-  ---------------------------------------------------------------------------
-*/
-#include <cstdlib>
-#include <iostream>
-
-#include "saisie.h"
-#include "tableaux.h"
-#include "nombre.h"
-
-using namespace std;
-
-
-int main() {
-
-   //Contantes
-   const int NOMBRE_VALEURS_MIN = 2,
-             NOMBRE_VALEURS_MAX = 100;
-
-   //Variables
-   size_t nombreValeurs;
-   int      tableauValeurs[NOMBRE_VALEURS_MAX] = { 0 },
-            tableauNombresPremiers[NOMBRE_VALEURS_MAX];
-   bool     tableauAffichage[NOMBRE_VALEURS_MAX] = { false };
-
-   //Saisie
-   nombreValeurs = (static_cast<size_t>(saisirValeurBornee(
-      "Veuillez choisir le nombre de valeurs", NOMBRE_VALEURS_MIN,
-      NOMBRE_VALEURS_MAX)));
-
-   //Affichage du tableau vide
-   afficherTableau(tableauAffichage, nombreValeurs, 10, 'O', 'O');
-
-   //Récupération des nombres premiers
-   // Comme pour trouver les nombres premiers avec cet algorithme-ci il faudra toujours commencer
-   // à 1, il n'est pas question d'avoir un min différent et donc on peut se baser sur l'index
-   // pour afficher les valeurs
-
-   //Initialisation du tableau
-   genererNombresEntiers(tableauValeurs, NOMBRE_VALEURS_MAX, 1, static_cast<int>(nombreValeurs));
-
-   const unsigned nombresPremiers = trouverNombresPremiers(tableauValeurs,
-                                                         static_cast<int>(nombreValeurs),
-                                                         false);
-
-   convertirIntToBool(tableauValeurs, tableauAffichage, nombreValeurs);
-
-   afficherTableau(tableauAffichage, nombreValeurs, 10, 'O', 'X');
-
-   afficherTableau(tableauNombresPremiers, nombresPremiers);
-
-   //Affichage du tableau criblé
+   cout << endl << endl << GOODBYE_MESSAGE;
+   clearBuffer();
 
    return EXIT_SUCCESS;
 }

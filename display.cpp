@@ -1,10 +1,10 @@
 /*
 -----------------------------------------------------------------------------------
 Filename        : display.cpp
-Author(s)       : Rui Manuel Mota Carneiro
+Author(s)       : Rui Manuel Mota Carneiro, Aurélien Bloch
 Creation date   : 20.11.2021
 
-Description     : Functions to display multiple values
+Description     : Functions to display multiple types of values
 
 Comment(s)      :
 
@@ -22,7 +22,7 @@ using namespace std;
 
 // Function to display a table of unsigned
 void displayTable(const string& message, unsigned nbColumns, int spacePerValue,
-                  const unsigned table[], size_t tableSize) {
+                  const int table[], size_t tableSize) {
    cout << message << endl;
    for (size_t i = 0; i < tableSize; ++i) {
       cout << setw(spacePerValue) << table[i];

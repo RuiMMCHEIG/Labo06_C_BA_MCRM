@@ -3,5 +3,5 @@ project(Labo06_C_BA_MCRM)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Labo06_C_BA_MCRM main.cpp inputs.h inputs.cpp display.h display.cpp
-        prime.h prime.cpp)
+add_executable(Labo06_C_BA_MCRM main.cpp input.h input.cpp display.h display.cpp
+        numbers.h numbers.cpp)
